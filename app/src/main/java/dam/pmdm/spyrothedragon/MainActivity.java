@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController);
         }
 
-        binding.navView.setOnItemSelectedListener(this::selectedBottomMenu);
+//        binding.navView.setOnItemSelectedListener(this::selectedBottomMenu);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.navigation_characters ||
@@ -50,17 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.nav_characters)
-            navController.navigate(R.id.navigation_characters);
-        else
-        if (menuItem.getItemId() == R.id.nav_worlds)
-            navController.navigate(R.id.navigation_worlds);
-        else
-            navController.navigate(R.id.navigation_collectibles);
-        return true;
-
-    }
+//    private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
+//        if (menuItem.getItemId() == R.id.nav_characters)
+//            navController.navigate(R.id.navigation_characters);
+//        else
+//        if (menuItem.getItemId() == R.id.nav_worlds)
+//            navController.navigate(R.id.navigation_worlds);
+//        else
+//            navController.navigate(R.id.navigation_collectibles);
+//        return true;
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

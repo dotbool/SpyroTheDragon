@@ -50,7 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         binding.btnWelcome.setOnClickListener(v-> {
             binding.welcomeSurfaceView.setLetRun(false);
-            goToMain();
+            goToGuide();
         });
 
 //        binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
@@ -103,8 +103,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void goToMain(){
-        Intent i = new Intent(this, MainActivity.class);
+    private void goToGuide(){
+        Intent i = new Intent(this, GuideActivity.class);
         startActivity(i);
 //        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();

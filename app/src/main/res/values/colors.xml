@@ -2,6 +2,7 @@
 <resources>
     <color name="pink">#c55e97</color>
     <color name="purple">#9c35ba</color>
+    <color name="purple_transparent_70">#b39c35ba</color>
     <color name="purple_light">#E681FD</color>
     <color name="purple_dark">#340143</color>
     <color name="orange">#e7a56e</color>
@@ -23,4 +24,5 @@
     <color name="dark_yellow_05">#0dffcc00</color>
     <color name="transparent">#00000000</color>
     <color name="light_yellow">#fff5cc</color>
+    <color name="mid_transparent">#80ffffff</color>
 </resources>

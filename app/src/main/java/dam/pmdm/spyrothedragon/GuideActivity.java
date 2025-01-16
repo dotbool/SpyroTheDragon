@@ -1,24 +1,32 @@
 package dam.pmdm.spyrothedragon;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityGuideBinding;
+import dam.pmdm.spyrothedragon.ui.CharactersBubbleDrawable;
+import dam.pmdm.spyrothedragon.ui.CharactersIconDrawable;
 
 public class GuideActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityGuideBinding binding = ActivityGuideBinding.inflate(getLayoutInflater());
+        binding = ActivityGuideBinding.inflate(getLayoutInflater());
         binding.guideLayout.bringToFront();
         setContentView(binding.getRoot());
 
@@ -29,10 +37,21 @@ public class GuideActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
         }
 
+        CharactersBubbleDrawable cd = new CharactersBubbleDrawable(this);
+        binding.charactersBubbleDrawable.bringToFront();
+        binding.charactersBubbleDrawable.setBackground(cd);
+        CharactersIconDrawable cid = new CharactersIconDrawable(this);
+        binding.charactersIconDrawable.bringToFront();
+        binding.charactersIconDrawable.setBackground(cid);
+
+//        binding.charactersIcon.setForeground(
+//                ResourcesCompat.getDrawable(getResources(),R.drawable.circle, null));
+
+
+
         binding.btnGo.setOnClickListener(v -> {
 
             String label = (String) navController.getCurrentDestination().getLabel();
-            Log.d("laBEL", label);
 
             int destination = 0;
 
@@ -56,6 +75,32 @@ public class GuideActivity extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(
+                this, R.animator.character_icon_animator);
+        set.setTarget(binding.charactersIconDrawable);
+        set.start();
+
+        AnimatorSet set2 = (AnimatorSet) AnimatorInflater.loadAnimator(
+                this, R.animator.character_bubble_animator
+        );
+        set2.setTarget(binding.charactersBubbleDrawable);
+        set2.start();
+
+    }
+
+    /**
+     * Esté método se ha implementado en esta actividad para que el icono del menú
+     * sea mostrado
+     * @param menu The options menu in which you place your items.
+     *
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -64,6 +109,7 @@ public class GuideActivity extends AppCompatActivity {
     }
 
     NavController navController;
+    ActivityGuideBinding binding;
 
 
 }

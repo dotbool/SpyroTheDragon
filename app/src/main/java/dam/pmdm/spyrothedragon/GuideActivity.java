@@ -14,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityGuideBinding;
 import dam.pmdm.spyrothedragon.ui.CharactersBubbleDrawable;
 import dam.pmdm.spyrothedragon.ui.CharactersIconDrawable;
+import dam.pmdm.spyrothedragon.ui.CollectiblesFragment;
+import dam.pmdm.spyrothedragon.ui.WorldsFragment;
 
 public class GuideActivity extends AppCompatActivity {
 
@@ -52,24 +55,59 @@ public class GuideActivity extends AppCompatActivity {
         binding.btnGo.setOnClickListener(v -> {
 
             String label = (String) navController.getCurrentDestination().getLabel();
-
-            int destination = 0;
+                    Fragment f =null;
+                    int destination = 0;
+                    System.out.println(label);
 
             switch (label) {
 
                 case "Personajes":
-                    destination = R.id.navigation_worlds;
+                    destination = R.id.action_navigation_characters_to_navigation_worlds;
+                    f = new WorldsFragment();
                     break;
                 case "Mundos":
                     destination = R.id.navigation_collectibles;
+                    f = new CollectiblesFragment();
+                    System.out.println("mundos");
                     break;
                 case "Coleccionables":
                     destination = R.id.navigation_collectibles;
                     break;
             }
             if (destination != 0) {
+//                getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
+//                        .replace(R.id.nav_host_fragment_guide, f)
+//                        .addToBackStack(null)
+//                                .commit();
                 navController.navigate(destination);
             }
+
+        }
+        );
+
+        binding.btnBack.setOnClickListener(v->{
+            String label = (String) navController.getCurrentDestination().getLabel();
+            Fragment f =null;
+            int destination = 0;
+
+            switch (label) {
+
+                case "Personajes":
+                    break;
+                case "Mundos":
+                    destination = R.id.action_navigation_worlds_to_navigation_characters;
+                    break;
+                case "Coleccionables":
+                    destination = R.id.navigation_collectibles;
+                    break;
+            }
+            if (destination != 0) {
+
+                navController.navigate(destination);
+            }
+
 
         });
 
@@ -81,10 +119,10 @@ public class GuideActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(
-                this, R.animator.character_icon_animator);
-        set.setTarget(binding.charactersIconDrawable);
-        set.start();
+        animatorHelper(this,
+                R.animator.character_icon_animator,
+                binding.charactersIconDrawable);
+
 
         AnimatorSet set2 = (AnimatorSet) AnimatorInflater.loadAnimator(
                 this, R.animator.character_bubble_animator
@@ -106,6 +144,20 @@ public class GuideActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.about_menu, menu);
         return true;
+    }
+
+    /**
+     *
+     * @param ctx Contexto sobre el que se desarrolla la animación
+     * @param xmlAnimator es el archivo xml que contiene la animación
+     * @param target es la vista que va a ser animada
+     */
+    private void animatorHelper(Context ctx, int xmlAnimator, View target){
+        AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(
+                this, xmlAnimator
+        );
+        set.setTarget(target);
+        set.start();
     }
 
     NavController navController;

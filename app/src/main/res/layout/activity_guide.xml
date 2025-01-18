@@ -5,65 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
+    <dam.pmdm.spyrothedragon.ui.ViewMother
         android:id="@+id/guide_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent"
         android:clickable="true" />
 
-<!--    <Button-->
-<!--        android:id="@+id/btn_go"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:text="Avanzar"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        >-->
 
-<!--    </Button>-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/btn_go"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="@color/dark_yellow_50"
-        />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_go"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_16"
+        app:layout_constraintStart_toEndOf="@id/guideline_v_83"
+        app:layout_constraintDimensionRatio="h,1:1"
+        android:background="@drawable/circle_button_state_list"
+        android:gravity="start|center_vertical"
+        android:textSize="11sp"
         />
 
+
+    <Button
+        android:id="@+id/btn_skip_guide"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_skip_guide"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v_16"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_16"
+        android:background="@drawable/circle_button_state_list"
+        android:gravity="end|center_vertical"
+        android:textSize="11sp"
+        />
 
     <TextView
         android:id="@+id/characters_bubble_drawable"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:justificationMode="inter_word"
+        android:padding="16dp"
         android:text="holaaaaa aaaa todos lossss aaaaaaaaaa ff sfsfsdf saesfsfsfsf"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/guideline_h_75"
         app:layout_constraintEnd_toStartOf="@id/guideline_v_66"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline_h_50"
-        android:layout_marginStart="16dp"
-        android:padding="16dp"
-        android:textColor="@color/white"
+        android:background="@drawable/circle"
         >
 
     </TextView>
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_guide"
@@ -102,6 +98,17 @@
         app:layout_constraintTop_toBottomOf="@id/guideline_h_97" />
 
     <ImageView
+        android:id="@+id/characters_icon_drawable"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v_66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h_75"
+        />
+
+<!--WORLS-->
+    <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
@@ -123,7 +130,38 @@
         app:layout_constraintStart_toEndOf="@id/guideline_v_33"
         app:layout_constraintTop_toBottomOf="@id/guideline_h_97" />
 
+    <TextView
+        android:id="@+id/world_bubble"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:justificationMode="inter_word"
+        android:padding="16dp"
+        android:text="Los mundos no se que no se cuanto..."
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_75"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v_83"
+        app:layout_constraintStart_toEndOf="@id/guideline_v_16"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h_50"
+        android:background="@drawable/circle"
+        android:alpha="0"
+        >
 
+    </TextView>
+
+    <ImageView
+        android:id="@+id/world_icon_with_drawable"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v_83"
+        app:layout_constraintStart_toStartOf="@id/guideline_v_16"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h_75"
+        android:alpha="0"
+        />
+
+<!--COLLECTIBLES-->
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -147,17 +185,69 @@
         app:layout_constraintTop_toBottomOf="@id/guideline_h_97" />
 
     <ImageView
-        android:id="@+id/characters_icon_drawable"
+        android:id="@+id/collectibles_icon_drawable"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v_66"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_v_33"
         app:layout_constraintTop_toBottomOf="@id/guideline_h_75"
+        android:alpha="0"
+        />
+
+    <TextView
+        android:id="@+id/collectible_bubble"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:justificationMode="inter_word"
+        android:padding="16dp"
+        android:text="Los mundos no se que no se cuanto..."
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_75"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_v_33"
+        app:layout_constraintTop_toBottomOf="@id/guideline_h_50"
+        android:background="@drawable/circle"
+        android:alpha="0"
+        />
+
+
+    <TextView
+        android:id="@+id/final_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_75"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/final_resumen"
+        style="@style/long_text.h4"
+        android:alpha="0"
         >
+    </TextView>
 
-    </ImageView>
+    <Button
+        android:id="@+id/btn_to_main"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:text="@string/btn_to_main"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h_75"
+        app:layout_constraintStart_toEndOf="@id/guideline_v_16"
+        app:layout_constraintEnd_toStartOf="@id/guideline_v_83"
+        app:layout_constraintDimensionRatio="h,1:1"
+        android:background="@drawable/circle_button_state_list"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:alpha="0"
 
+        />
+
+
+
+<!--GUIDELINES-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_v_33"
         android:layout_width="wrap_content"
@@ -227,6 +317,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".89" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_h_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".16" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

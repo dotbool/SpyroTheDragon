@@ -4,5 +4,10 @@
     <solid
         android:color="@color/purple_transparent_70">
     </solid>
-
+    <stroke
+        android:color="@color/cyan_70"
+        android:width="8dp"
+        >
+    </stroke>
+ 
 </shape>

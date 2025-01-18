@@ -10,4 +10,21 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash</item>
 
     </style>
+
+    <style name="Theme.Guide" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowBackground">@drawable/background</item>
+
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
+
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+
+        <!-- specify shared element transitions -->
+
+    </style>
 </resources>

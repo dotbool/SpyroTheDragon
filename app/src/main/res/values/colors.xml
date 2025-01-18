@@ -25,4 +25,5 @@
     <color name="transparent">#00000000</color>
     <color name="light_yellow">#fff5cc</color>
     <color name="mid_transparent">#80ffffff</color>
+    <color name="cyan_70">#b3009688</color>
 </resources>

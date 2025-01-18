@@ -1,6 +1,7 @@
 package dam.pmdm.spyrothedragon;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Insets;
 import android.graphics.drawable.AnimationDrawable;
@@ -105,8 +106,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void goToGuide(){
         Intent i = new Intent(this, GuideActivity.class);
-        startActivity(i);
-//        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+//        startActivity(i);
+        startActivity(i, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         finish();
 
     }

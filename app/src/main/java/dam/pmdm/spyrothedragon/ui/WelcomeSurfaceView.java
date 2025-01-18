@@ -84,23 +84,21 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
             ran = new Random();
             p = new Paint();
-
-        }
-
-        @Override
-        public void run() {
-
             int initialPositionXB1 = (int) (Math.random() * limitX);
             int initialPositionXB2 = (int) (Math.random() * limitX);
             int initialPositionXB3 = (int) (Math.random() * limitX);
             int initialPositionXB4 = (int) (Math.random() * limitX);
             int initialPositionXB5 = (int) (Math.random() * limitX);
-            Bolita b1 = new Bolita(initialPositionXB1, limitY, limitX, limitY);
-            Bolita b2 = new Bolita(initialPositionXB2, limitY, limitX, limitY);
-            Bolita b3 = new Bolita(initialPositionXB3, limitY, limitX, limitY);
-            Bolita b4 = new Bolita(initialPositionXB4, limitY, limitX, limitY);
-            Bolita b5 = new Bolita(initialPositionXB5, limitY, limitX, limitY);
+            b1 = new Bolita(initialPositionXB1, limitY, limitX, limitY);
+            b2 = new Bolita(initialPositionXB2, limitY, limitX, limitY);
+            b3 = new Bolita(initialPositionXB3, limitY, limitX, limitY);
+            b4 = new Bolita(initialPositionXB4, limitY, limitX, limitY);
+            b5 = new Bolita(initialPositionXB5, limitY, limitX, limitY);
 
+        }
+
+        @Override
+        public void run() {
 
             while (letRun){
 
@@ -160,6 +158,7 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
         }
         Random ran;
+        Bolita b1,b2,b3,b4,b5;
 
     }
 

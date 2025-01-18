@@ -12,4 +12,9 @@
     hablarán en lenguas todavía no inventadas. \n\nAntes de embarcarte en semejante odisea
         aprendamos
     los principios de navegación. \n\nPulsa comenzar</string>
+    <string name="btn_go">avanzar</string>
+    <string name="btn_skip_guide">saltar</string>
+    <string name="final_resumen">Resumiendo, hemos visto: \n1. Pestaña de personajes \n2. Pestaña de
+        mundos\n3. Pestaña de coleccionables.\n4. Icono del ménu superior</string>
+    <string name="btn_to_main">ir a la app</string>
 </resources>

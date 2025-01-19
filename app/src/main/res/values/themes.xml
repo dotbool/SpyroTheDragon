@@ -23,6 +23,7 @@
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/explode</item>
         <item name="android:windowExitTransition">@transition/explode</item>
+        <item name="android:soundEffectsEnabled">false</item>
 
         <!-- specify shared element transitions -->
 

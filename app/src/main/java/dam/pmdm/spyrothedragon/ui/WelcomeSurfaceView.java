@@ -43,7 +43,6 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         limitY = getHeight();
         bubbleThread = new WelcomeBubbleThread();
         letRun = true;
-        Log.d("ESTADIO", bubbleThread.getState().name());
         bubbleThread.start();
 
     }
@@ -60,6 +59,7 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         Log.d("SURFACED DESTRUIDA", "lA SURFACE HA SIDO DESTRUIDA");
+        bubbleThread.interrupt();
         boolean retry = true;
         letRun = false;
 
@@ -99,58 +99,69 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
         @Override
         public void run() {
+            int direction;
+            p.setColor(Color.WHITE);
 
             while (letRun){
-
                 if(surfaceHolder.getSurface().isValid()){
                     try {
-
                         canvas = surfaceHolder.lockCanvas(); //bloqueamos el objeto canvas
-//                        if (bitmap == null) {
-//                            bitmap = Bitmap.createBitmap(limitX, limitY, Bitmap.Config.ARGB_8888);
-//                            canvas.setBitmap(bitmap);
-//                        }
+
+                        if(canvas!=null) {
+                        if (bitmap == null) {
+                            bitmap = Bitmap.createBitmap(limitX, limitY, Bitmap.Config.ARGB_8888);
+                            canvas.setBitmap(bitmap);
+                        }
+
+                            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR); //borramos todo
+
+                            canvas.drawCircle(b1.getCx(), b1.getCy(), 4, p);
+                            direction = ran.nextBoolean() ? 1 : -1;
+                            b1.setCx(b1.getCx() + direction);
+                            b1.setCy(b1.getCy() - 20);
 
 
-                        p.setColor(Color.WHITE);
-                        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR); //borramos todo
+                            canvas.drawCircle(b2.getCx(), b2.getCy(), 8, p);
+                            direction = ran.nextBoolean() ? 1 : -1;
+                            b2.setCx(b2.getCx() + direction);
+                            b2.setCy(b2.getCy() - 16);
 
-                        canvas.drawCircle(b1.getCx(), b1.getCy(), 4, p);
-                        int direction = ran.nextBoolean() ? 1: -1;
-                        b1.setCx(b1.getCx() + direction);
-                        b1.setCy(b1.getCy() - 20);
+                            canvas.drawCircle(b3.getCx(), b3.getCy(), 12, p);
+                            direction = ran.nextBoolean() ? 1 : -1;
+                            b3.setCx(b3.getCx() + direction);
+                            b3.setCy(b3.getCy() - 12);
 
-                        canvas.drawCircle(b2.getCx(), b2.getCy(), 8, p);
-                        direction = ran.nextBoolean() ? 1: -1;
-                        b2.setCx(b2.getCx() + direction);
-                        b2.setCy(b2.getCy() - 16);
 
-                        canvas.drawCircle(b3.getCx(), b3.getCy(), 12, p);
-                        direction = ran.nextBoolean() ? 1: -1;
-                        b3.setCx(b3.getCx() + direction);
-                        b3.setCy(b3.getCy() - 12);
+                            canvas.drawCircle(b4.getCx(), b4.getCy(), 16, p);
+                            direction = ran.nextBoolean() ? 1 : -1;
+                            b4.setCx(b4.getCx() + direction);
+                            b4.setCy(b4.getCy() - 8);
 
-                        canvas.drawCircle(b4.getCx(), b4.getCy(), 16, p);
-                        direction = ran.nextBoolean() ? 1: -1;
-                        b4.setCx(b4.getCx() + direction);
-                        b4.setCy(b4.getCy() - 8);
-
-                        canvas.drawCircle(b5.getCx(), b5.getCy(), 20, p);
-                        direction = ran.nextBoolean() ? 1: -1;
-                        b5.setCx(b5.getCx() + direction);
-                        b5.setCy(b5.getCy() - 4);
+                            canvas.drawCircle(b5.getCx(), b5.getCy(), 20, p);
+                            direction = ran.nextBoolean() ? 1 : -1;
+                            b5.setCx(b5.getCx() + direction);
+                            b5.setCy(b5.getCy() - 4);
+                        }
 
                     }
+                    catch(IllegalMonitorStateException e){
+                        Log.d("RUN SURFACE VIEW ILLEGALÑmoNNITOR", e.getMessage());
+
+                    }
+
                     catch (Exception e){
-
                         Log.d("RUN SURFACE VIEW", e.getMessage());
+//                        letRun = false;
+
                     }
+
                     finally {
                         surfaceHolder.unlockCanvasAndPost(canvas);
 
                     }
 
                 }
+
             }
         }
 

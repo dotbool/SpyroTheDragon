@@ -11,6 +11,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -42,6 +44,7 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         binding = ActivityGuideBinding.inflate(getLayoutInflater());
         binding.guideLayout.bringToFront();
         setContentView(binding.getRoot());
+
 
 
         NavHostFragment navHostFragment =
@@ -87,6 +90,9 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         binding.collectiblesIconDrawable.bringToFront();
         binding.collectiblesIconDrawable.setBackground(collectiblesIconDrawable);
 
+        SoundPool soundPool = new SoundPool.Builder().setMaxStreams(1).build();
+        int soundId = soundPool.load(this, R.raw.muelle, 1);
+
 
 
         binding.btnGo.setOnClickListener(v -> {
@@ -121,6 +127,20 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                 //Empieza animación icono world
                                 iconAnimatorInSet.setTarget(binding.worldIconWithDrawable);
                                 iconAnimatorInSet.start();
+
+                                handler = new Handler(Looper.getMainLooper());
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+
+                                    }
+                                },800);
+
+
+
+//                                soundPool.release();
+//                                soundPool = null;
                                 break;
                             case "Mundos":  //si estamos en el fragmento Mundos navegaremos al Colleccionables
                                 destination = R.id.action_navigation_worlds_to_navigation_collectibles;
@@ -137,6 +157,15 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                 iconAnimatorInSet.start();
                                 bubbleAnimatorInSet.setTarget(binding.collectibleBubble);
                                 bubbleAnimatorInSet.start();
+
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+
+                                    }
+                                },800);
+
                                 break;
 
                             case "Coleccionables":
@@ -171,6 +200,14 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                     menuItemView.setBackground(ResourcesCompat.getDrawable(getResources(),
                                             R.drawable.circle_pressed, null));
 
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+
+                                        }
+                                    },800);
+
                                 }
 
                                 else {
@@ -183,7 +220,15 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                     bubbleAnimatorInSet.start();
                                     iconAnimatorInSet.setTarget(binding.btnToMain);
                                     iconAnimatorInSet.start();
+                                    binding.btnToMain.setEnabled(true);
                                     binding.guideLayout.invalidate();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+
+                                        }
+                                    },800);
 
                                 }
 
@@ -199,7 +244,12 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                 }
         );
 
-        binding.btnToMain.setOnClickListener(v->goToMain());
+        binding.btnToMain.setOnClickListener(v->{
+            soundPool.release();
+            goToMain();
+            Log.d("YENFO A MAIN", "");
+
+        });
 
     }
 
@@ -240,6 +290,7 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
 
         binding.btnGo.setEnabled(false);
         binding.btnSkipGuide.setEnabled(false);
+
     }
 
     @Override
@@ -270,6 +321,7 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
     boolean isScreen5;
     View menuItemView;
     Drawable defaultMenuItemBackground;
+    Handler handler;
 
 
 }

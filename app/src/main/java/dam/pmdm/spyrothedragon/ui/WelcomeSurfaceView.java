@@ -144,10 +144,6 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                         }
 
                     }
-                    catch(IllegalMonitorStateException e){
-                        Log.d("RUN SURFACE VIEW ILLEGALÑmoNNITOR", e.getMessage());
-
-                    }
 
                     catch (Exception e){
                         Log.d("RUN SURFACE VIEW", e.getMessage());
@@ -156,7 +152,9 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                     }
 
                     finally {
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                        if(surfaceHolder.getSurface().isValid() && canvas!=null ) {
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                        }
 
                     }
 

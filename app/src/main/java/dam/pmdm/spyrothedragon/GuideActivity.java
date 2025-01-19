@@ -32,6 +32,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import java.util.Objects;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityGuideBinding;
+import dam.pmdm.spyrothedragon.services.MediaPlayerService;
 import dam.pmdm.spyrothedragon.ui.CharactersIconDrawable;
 import dam.pmdm.spyrothedragon.ui.CollectiblesIconDrawable;
 import dam.pmdm.spyrothedragon.ui.WorldIconDrawable;
@@ -246,6 +247,7 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
 
         binding.btnToMain.setOnClickListener(v->{
             soundPool.release();
+            stopService(new Intent(this, MediaPlayerService.class));
             goToMain();
             Log.d("YENFO A MAIN", "");
 

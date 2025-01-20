@@ -5,14 +5,12 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +21,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.res.ResourcesCompat;
@@ -30,6 +29,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityGuideBinding;
 import dam.pmdm.spyrothedragon.services.MediaPlayerService;
@@ -53,8 +54,8 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         if(navHostFragment!=null) {
             navController = navHostFragment.getNavController();
         }
-
-
+        timer = new Timer();
+        handler = new Handler(Looper.getMainLooper());
         /*Animación bocadillo que informa sobre el icono de personajes
         * Se crea un drawable (esta fue la primera vez y a partir de las
         siguientes, se usa un xml para drawables sencillos (shapes))
@@ -90,9 +91,12 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         CollectiblesIconDrawable collectiblesIconDrawable = new CollectiblesIconDrawable(this);
         binding.collectiblesIconDrawable.bringToFront();
         binding.collectiblesIconDrawable.setBackground(collectiblesIconDrawable);
-
-        SoundPool soundPool = new SoundPool.Builder().setMaxStreams(1).build();
-        int soundId = soundPool.load(this, R.raw.muelle, 1);
+        soundPool = new SoundPool.Builder().setMaxStreams(1).build();
+        soundId = soundPool.load(this, R.raw.muelle, 1);
+        soundLevelUp = soundPool.load(this, R.raw.level_up, 1);
+        binding.btnSkipGuide.setOnClickListener(v->{
+            showBtnSkipGuideDialog();
+        });
 
 
 
@@ -129,19 +133,8 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                 iconAnimatorInSet.setTarget(binding.worldIconWithDrawable);
                                 iconAnimatorInSet.start();
 
-                                handler = new Handler(Looper.getMainLooper());
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
-
-                                    }
-                                },800);
 
 
-
-//                                soundPool.release();
-//                                soundPool = null;
                                 break;
                             case "Mundos":  //si estamos en el fragmento Mundos navegaremos al Colleccionables
                                 destination = R.id.action_navigation_worlds_to_navigation_collectibles;
@@ -151,21 +144,16 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                 iconAnimatorOutSet.setTarget(binding.worldIconWithDrawable);
                                 iconAnimatorOutSet.start();
                                 bubbleAnimatorOutSet.setTarget(binding.worldBubble);
+                                bubbleAnimatorOutSet.addListener(this);
                                 bubbleAnimatorOutSet.start();
 
                                 //Animaciones que entran
                                 iconAnimatorInSet.setTarget(binding.collectiblesIconDrawable);
                                 iconAnimatorInSet.start();
                                 bubbleAnimatorInSet.setTarget(binding.collectibleBubble);
+                                bubbleAnimatorInSet.addListener(this);
                                 bubbleAnimatorInSet.start();
 
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
-
-                                    }
-                                },800);
 
                                 break;
 
@@ -176,12 +164,14 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                     binding.guideLayout.invalidate();
 
                                     bubbleAnimatorOutSet.setTarget(binding.collectibleBubble);
+                                    bubbleAnimatorOutSet.addListener(this);
                                     bubbleAnimatorOutSet.start();
                                     iconAnimatorOutSet.setTarget(binding.collectiblesIconDrawable);
                                     iconAnimatorOutSet.start();
                                     //vistas que entran
                                     binding.worldBubble.setText("Icono informativo: información sobre el creador de la app");
                                     bubbleAnimatorInSet.setTarget(binding.worldBubble);
+                                    bubbleAnimatorInSet.addListener(this);
                                     bubbleAnimatorInSet.start();
 
 
@@ -201,13 +191,6 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                     menuItemView.setBackground(ResourcesCompat.getDrawable(getResources(),
                                             R.drawable.circle_pressed, null));
 
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
-
-                                        }
-                                    },800);
 
                                 }
 
@@ -218,21 +201,15 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                                     binding.btnGo.setVisibility(View.GONE);
                                     binding.finalSummary.bringToFront();
                                     bubbleAnimatorInSet.setTarget(binding.finalSummary);
+                                    bubbleAnimatorInSet.addListener(this);
+
                                     bubbleAnimatorInSet.start();
                                     iconAnimatorInSet.setTarget(binding.btnToMain);
                                     iconAnimatorInSet.start();
                                     binding.btnToMain.setEnabled(true);
                                     binding.guideLayout.invalidate();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
-
-                                        }
-                                    },800);
 
                                 }
-
 
                                 break;
                         }
@@ -245,14 +222,29 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
                 }
         );
 
-        binding.btnToMain.setOnClickListener(v->{
-            soundPool.release();
-            stopService(new Intent(this, MediaPlayerService.class));
-            goToMain();
-            Log.d("YENFO A MAIN", "");
 
+
+        binding.btnToMain.setOnClickListener(v->{
+            soundPool.play(soundLevelUp,1,1,1,0,1);
+            stopService(new Intent(this, MediaPlayerService.class));
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    soundPool.release();
+                    handler = null;
+                }
+            },5000);
+            goToMain();
         });
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+        timer.purge();
     }
 
     private void goToMain(){
@@ -286,12 +278,36 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         return true;
     }
 
+    private void showBtnSkipGuideDialog() {
+
+        // Crear un diálogo de información
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.btn_skip_guide_tittle)
+                .setMessage(R.string.btn_skip_guide_message)
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        binding.btnToMain.performClick();
+                    }
+                })
+                .setNegativeButton(R.string.btn_skip_guide_leave,null)
+                .show();
+    }
+
 
     @Override
     public void onAnimationStart(@NonNull Animator animation) {
 
         binding.btnGo.setEnabled(false);
         binding.btnSkipGuide.setEnabled(false);
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+            }
+        },600);
+
 
     }
 
@@ -300,6 +316,7 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         binding.btnGo.setEnabled(true);
         binding.btnSkipGuide.setEnabled(true);
         bubbleAnimatorOutSet.removeAllListeners();
+        bubbleAnimatorInSet.removeAllListeners();
     }
 
     @Override
@@ -307,6 +324,8 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
         binding.btnGo.setEnabled(true);
         binding.btnSkipGuide.setEnabled(true);
         bubbleAnimatorOutSet.removeAllListeners();
+        bubbleAnimatorInSet.removeAllListeners();
+
     }
 
     @Override
@@ -324,6 +343,11 @@ public class GuideActivity extends AppCompatActivity implements Animator.Animato
     View menuItemView;
     Drawable defaultMenuItemBackground;
     Handler handler;
+    Timer timer;
+    SoundPool soundPool;
+    int soundId;
+    int soundLevelUp;
+
 
 
 }

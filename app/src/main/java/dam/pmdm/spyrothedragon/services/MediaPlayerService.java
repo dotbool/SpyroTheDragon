@@ -40,9 +40,9 @@ public class MediaPlayerService extends Service {
         super.onDestroy();
         if(mp.isPlaying()){
             mp.stop();
-            mp.release();
-            mp=null;
         }
+        mp.release();
+        mp=null;
     }
 
     @Override

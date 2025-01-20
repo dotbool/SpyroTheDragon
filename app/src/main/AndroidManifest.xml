@@ -31,6 +31,9 @@
         <activity
             android:name=".GuideActivity"
             android:theme="@style/Theme.Guide" />
+        <activity
+            android:name=".VideoActivity"
+            android:theme="@style/Theme.Video" />
     </application>
 
 </manifest>

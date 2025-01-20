@@ -1,9 +1,16 @@
 package dam.pmdm.spyrothedragon.ui;
 
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,19 +22,23 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import dam.pmdm.spyrothedragon.ClickListener;
 import dam.pmdm.spyrothedragon.R;
+import dam.pmdm.spyrothedragon.VideoActivity;
 import dam.pmdm.spyrothedragon.adapters.CollectiblesAdapter;
 import dam.pmdm.spyrothedragon.databinding.FragmentCollectiblesBinding;
 import dam.pmdm.spyrothedragon.models.Collectible;
 
-public class CollectiblesFragment extends Fragment {
+public class CollectiblesFragment extends Fragment implements ClickListener {
 
     private FragmentCollectiblesBinding binding;
     private RecyclerView recyclerView;
     private CollectiblesAdapter adapter;
     private List<Collectible> collectiblesList;
+    ReproductorVideo reproductor;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,8 +47,11 @@ public class CollectiblesFragment extends Fragment {
         recyclerView = binding.recyclerViewCollectibles;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         collectiblesList = new ArrayList<>();
-        adapter = new CollectiblesAdapter(collectiblesList);
+        adapter = new CollectiblesAdapter(collectiblesList, this);
         recyclerView.setAdapter(adapter);
+        reproductor = new ReproductorVideo();
+
+
 
         loadCollectibles();
         return binding.getRoot();
@@ -99,4 +113,76 @@ public class CollectiblesFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onClick(Long date) {
+
+        reproductor.setLastTouche(date);
+
+    }
+
+    class ReproductorVideo{
+
+
+        public ReproductorVideo() {
+            touches = 0;
+            lastTouche = new Date().getTime();
+        }
+
+        protected Long getLastTouche() {
+            return lastTouche;
+        }
+
+        protected void setLastTouche(Long lastTouche) {
+            if(touches == 0){
+                touches = 1;
+            }
+            Long oldTouche = this.lastTouche;
+            Log.d("TOUCHES", oldTouche+" "+ lastTouche);
+            if(oldTouche + 1000 > lastTouche){
+                touches++;
+                Log.d("TOUCES", touches+"");
+                if(touches == 4){
+                    Log.d("REPRODUCIENDO", "");
+
+                    reproducir();
+                    touches = 0;
+                }
+            }
+            else{
+                touches = 0;
+            }
+            this.lastTouche = lastTouche;
+        }
+
+        private void reproducir(){
+
+            Intent videoActivity = new Intent(requireActivity(), VideoActivity.class);
+            String videoPath =   "android.resource://"+requireActivity().getPackageName()+
+                    "/"+R.raw.video_pyro;
+            videoActivity.putExtra("videoPath", videoPath);
+            startActivity(videoActivity);
+
+            binding.videoView.setVideoPath(
+                    "android.resource://"+requireActivity().getPackageName()+
+                            "/"+R.raw.video_pyro);
+            }
+
+//            binding.videoView.setVisibility(View.VISIBLE);
+//            binding.videoView.bringToFront();
+//            binding.videoView.start();
+//            binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                @Override
+//                public void onCompletion(MediaPlayer mp) {
+//                    binding.videoView.setVisibility(View.GONE);
+//                }
+//            });
+        }
+
+        private Long lastTouche;
+        private int touches;
+
+    }
 }
+
+

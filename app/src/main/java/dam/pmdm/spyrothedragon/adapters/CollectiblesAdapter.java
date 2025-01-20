@@ -1,5 +1,6 @@
 package dam.pmdm.spyrothedragon.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,21 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
 import java.util.List;
 
+import dam.pmdm.spyrothedragon.ClickListener;
 import dam.pmdm.spyrothedragon.R;
 import dam.pmdm.spyrothedragon.models.Collectible;
 
 public class CollectiblesAdapter extends RecyclerView.Adapter<CollectiblesAdapter.CollectiblesViewHolder> {
 
     private List<Collectible> list;
+    ClickListener listener;
 
-    public CollectiblesAdapter(List<Collectible> collectibleList) {
+    public CollectiblesAdapter(List<Collectible> collectibleList, ClickListener listener) {
         this.list = collectibleList;
+        this.listener = listener;
     }
 
     @Override
@@ -31,6 +36,15 @@ public class CollectiblesAdapter extends RecyclerView.Adapter<CollectiblesAdapte
     public void onBindViewHolder(CollectiblesViewHolder holder, int position) {
         Collectible collectible = list.get(position);
         holder.nameTextView.setText(collectible.getName());
+
+        if(collectible.getName().equals("Gemas")) {
+            holder.imageImageView.setOnClickListener(v -> {
+
+                listener.onClick(new Date().getTime());
+                Log.d("GHEMA", "PINCHANDO LA GEN");
+            });
+        }
+
 
         // Cargar la imagen (simulado con un recurso drawable)
         int imageResId = holder.itemView.getContext().getResources().getIdentifier(collectible.getImage(), "drawable", holder.itemView.getContext().getPackageName());
@@ -51,6 +65,7 @@ public class CollectiblesAdapter extends RecyclerView.Adapter<CollectiblesAdapte
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name);
             imageImageView = itemView.findViewById(R.id.image);
+
         }
     }
 }

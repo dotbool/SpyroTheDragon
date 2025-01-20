@@ -17,4 +17,7 @@
     <string name="final_resumen">Resumiendo, hemos visto: \n1. Pestaña de personajes \n2. Pestaña de
         mundos\n3. Pestaña de coleccionables.\n4. Icono del ménu superior</string>
     <string name="btn_to_main">ir a la app</string>
+    <string name="btn_skip_guide_tittle">Saltar la guía</string>
+    <string name="btn_skip_guide_message">¿Está seguro de cancelar la guía (no podrá volver a verla más adelante)?</string>
+    <string name="btn_skip_guide_leave">Ver la guía</string>
 </resources>

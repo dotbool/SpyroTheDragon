@@ -166,7 +166,6 @@ public class CollectiblesFragment extends Fragment implements ClickListener {
             binding.videoView.setVideoPath(
                     "android.resource://"+requireActivity().getPackageName()+
                             "/"+R.raw.video_pyro);
-            }
 
 //            binding.videoView.setVisibility(View.VISIBLE);
 //            binding.videoView.bringToFront();

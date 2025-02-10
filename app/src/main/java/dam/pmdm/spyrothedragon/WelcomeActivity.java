@@ -47,9 +47,9 @@ public class WelcomeActivity extends AppCompatActivity {
         boolean completed = sp.getBoolean(getString(R.string.guide_completed), false);
 
 //        ----------------- COMENTAR EL SIGUIENTE IF PARA PODER VER LA GUÍA MÁS DE UNA VEZ --------
-//        if(completed){
-//            goToMain();
-//        }
+        if(completed){
+            goToMain();
+        }
 
 
         /*---------------------- WELCOMESURFACEVIEW---------------------------------

@@ -20,5 +20,6 @@ Una vez instalado el IDE compila y ejecuta la app pulsando el 'play'
 ## Conclusiones del desarrollador: 
 Esta aplicación se hizo en su mayor  parte a mediados de Enero de 2024 y hoy, 10 de Febrero del 2025 estoy seguro de que la haría de otra forma. Para empezar eliminaría las actividades de Welcome y de Video. 
 Creo que la animación en las aplicaciones es fundamental para dotarlas de mayor atractivo y creo también que existen muchas formas de lograrlo y que para dominarlas todas no es sino preciso practicar el uso 
-de estas tecnologías
+de estas tecnologías. Ha sido especialmente engorroso lograr que Spyro escupa una llama y el resultado desde luego no es especialmente espectacular pero estoy seguro de que dedicándole más tiempo lograremos 
+que arda
 

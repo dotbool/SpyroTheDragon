@@ -1,6 +1,7 @@
 package dam.pmdm.spyrothedragon.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -121,9 +122,17 @@ public class CollectiblesFragment extends Fragment implements ClickListener {
 
     }
 
+    /**
+     * Esta clase sirve para reproducir el vídeo cuando se pulsan 4 veces
+     * seguidas sobre la gema
+     */
     class ReproductorVideo{
 
-
+        /**
+         * LastTouche es la última vez que se clicko la gema
+         * Es un Date. Si se producen 4 clicks y hay menos de 1 segundo entre click y click
+         * se revela el easteregg. Si entre un toque y otro pasa más de 1 segundo se resetea
+         */
         public ReproductorVideo() {
             touches = 0;
             lastTouche = new Date().getTime();
@@ -138,13 +147,9 @@ public class CollectiblesFragment extends Fragment implements ClickListener {
                 touches = 1;
             }
             Long oldTouche = this.lastTouche;
-            Log.d("TOUCHES", oldTouche+" "+ lastTouche);
             if(oldTouche + 1000 > lastTouche){
                 touches++;
-                Log.d("TOUCES", touches+"");
                 if(touches == 4){
-                    Log.d("REPRODUCIENDO", "");
-
                     reproducir();
                     touches = 0;
                 }
@@ -155,6 +160,9 @@ public class CollectiblesFragment extends Fragment implements ClickListener {
             this.lastTouche = lastTouche;
         }
 
+        /**
+         * Reproduce el video
+         */
         private void reproducir(){
 
             Intent videoActivity = new Intent(requireActivity(), VideoActivity.class);
@@ -167,15 +175,7 @@ public class CollectiblesFragment extends Fragment implements ClickListener {
                     "android.resource://"+requireActivity().getPackageName()+
                             "/"+R.raw.video_pyro);
 
-//            binding.videoView.setVisibility(View.VISIBLE);
-//            binding.videoView.bringToFront();
-//            binding.videoView.start();
-//            binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion(MediaPlayer mp) {
-//                    binding.videoView.setVisibility(View.GONE);
-//                }
-//            });
+
         }
 
         private Long lastTouche;

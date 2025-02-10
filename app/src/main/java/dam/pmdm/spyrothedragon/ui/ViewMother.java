@@ -53,7 +53,6 @@ public class ViewMother extends View {
             pointTo = null;
         }
         else if (drawable!=null) {
-            Log.d("DRAWABLE", "");
             setBackground(drawable);
         }
 
@@ -62,7 +61,6 @@ public class ViewMother extends View {
     public void setPointFrom(Point pointFrom) {
         this.pointFrom = pointFrom;
     }
-
     public void setPointTo(Point pointTo) {
         this.pointTo = pointTo;
     }

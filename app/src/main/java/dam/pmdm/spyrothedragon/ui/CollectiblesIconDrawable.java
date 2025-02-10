@@ -13,6 +13,9 @@ import androidx.core.content.ContextCompat;
 
 import dam.pmdm.spyrothedragon.R;
 
+/**
+ * Clase que dibuja sobre el icono de los collectibles
+ */
 public class CollectiblesIconDrawable extends Drawable {
 
     public CollectiblesIconDrawable(Context ctx) {

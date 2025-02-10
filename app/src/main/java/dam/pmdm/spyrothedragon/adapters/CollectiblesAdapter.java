@@ -37,11 +37,11 @@ public class CollectiblesAdapter extends RecyclerView.Adapter<CollectiblesAdapte
         Collectible collectible = list.get(position);
         holder.nameTextView.setText(collectible.getName());
 
+        //Al hacer click capturamos el instante actual
+        //para tratarlo en la clase interna del fragmento collectibles
         if(collectible.getName().equals("Gemas")) {
             holder.imageImageView.setOnClickListener(v -> {
-
                 listener.onClick(new Date().getTime());
-                Log.d("GHEMA", "PINCHANDO LA GEN");
             });
         }
 

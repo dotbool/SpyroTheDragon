@@ -13,6 +13,9 @@ import androidx.core.content.ContextCompat;
 
 import dam.pmdm.spyrothedragon.R;
 
+/**
+ * Clase que dibuja la línea y el círculo del ícono de characters
+ */
 public class CharactersIconDrawable extends Drawable {
 
 

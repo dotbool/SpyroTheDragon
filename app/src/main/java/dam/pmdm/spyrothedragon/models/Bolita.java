@@ -1,5 +1,9 @@
 package dam.pmdm.spyrothedragon.models;
 
+/**
+ * Esta clase representa cada una de las bolitas de la pantalla Welcome
+ * Se encarga de establecer las coordenadas de cada bolita
+ */
 public class Bolita {
 
     public Bolita(int cx, int cy, int limitX, int limitY) {

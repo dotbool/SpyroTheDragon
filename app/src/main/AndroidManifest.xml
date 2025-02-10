@@ -15,12 +15,14 @@
         <service
             android:name=".services.MediaPlayerService"
             android:enabled="true"
+            android:description="@string/music_service_description"
             android:exported="false" />
 
         <activity
             android:name=".WelcomeActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Video" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +32,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".GuideActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Guide" />
         <activity
             android:name=".VideoActivity"

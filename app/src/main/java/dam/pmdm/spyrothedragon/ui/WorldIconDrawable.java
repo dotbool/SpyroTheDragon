@@ -13,6 +13,9 @@ import androidx.core.content.ContextCompat;
 
 import dam.pmdm.spyrothedragon.R;
 
+/**
+ * Clase que pinta sobre el icono de los mundos
+ */
 public class WorldIconDrawable extends Drawable {
 
     public WorldIconDrawable(Context ctx) {

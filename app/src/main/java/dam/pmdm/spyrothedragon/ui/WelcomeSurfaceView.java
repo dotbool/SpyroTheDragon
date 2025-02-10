@@ -13,13 +13,21 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import java.util.Random;
 
 import dam.pmdm.spyrothedragon.models.Bolita;
 
-
-public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+/**
+ * Clase que se encarga de pintar las bolitas de la pantalla de welcome. Se trata de una superficie
+ * transparente colocada encima de la vista welcome de forma que sólo es preciso dibujar las bolitas
+ * La clase está vinculada al ciclo de vida de la welcome activity de forma que en función del estado
+ * de aquella el run de esta clase se activa o desactiva
+ */
+public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Callback, DefaultLifecycleObserver {
 
     public WelcomeSurfaceView(Context context) {
         this(context, null);
@@ -36,9 +44,36 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     }
 
 
+    /**
+     * Cuando la actividad se inicia comienza el ascenso de las bolitas
+     * @param owner
+     */
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
+        letRun = true;
+
+    }
+
+    /**
+     * Cuando la actividdd se para se detiene el run del hilo de la surface
+     * @param owner
+     */
+    @Override
+    public void onPause(@NonNull LifecycleOwner owner) {
+        letRun = false;
+    }
+
+    /**
+     * Cuando la actividad termina se quita el observer
+     * @param owner
+     */
+    @Override
+    public void onDestroy(@NonNull LifecycleOwner owner) {
+        owner.getLifecycle().removeObserver(this);
+    }
+
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        Log.d("SURFACED CREATED", "lA SURFACE HA SIDO CREADA");
         limitX = getWidth();
         limitY = getHeight();
         bubbleThread = new WelcomeBubbleThread();
@@ -49,41 +84,37 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        Log.d("SURFACED CAMBIADA", "lA SURFACE HA SIDO CAMBIADA");
-
-//            bitmap = Bitmap.createBitmap(limitX, limitY, Bitmap.Config.ARGB_8888);
-
 
     }
 
+    /**
+     * Cuando la surface es destruida permitimos que el hilo que corre en ella termine
+     * @param holder The SurfaceHolder whose surface is being destroyed.
+     */
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-        Log.d("SURFACED DESTRUIDA", "lA SURFACE HA SIDO DESTRUIDA");
         bubbleThread.interrupt();
-        boolean retry = true;
         letRun = false;
 
-        while (retry) {
-            try {
-                Log.d("ALIVE", String.valueOf(bubbleThread.isAlive()));
-                bubbleThread.join();
-                retry = false;
-                Log.d("ALIVE", String.valueOf(bubbleThread.isAlive()));
-
-            } catch (InterruptedException e) {
-                Log.d("INterrupte", "destroye");
-            }
+        try {
+            bubbleThread.join();
         }
-
-
+        catch (InterruptedException e) {
+        }
     }
 
+
+    /**
+     * Esta clase es el hilo que pinta las bolitas que ascienden en la pantalla de welcome
+     */
     private class WelcomeBubbleThread extends Thread {
 
         public WelcomeBubbleThread() {
 
             ran = new Random();
             p = new Paint();
+            p.setColor(Color.WHITE);
+
             int initialPositionXB1 = (int) (Math.random() * limitX);
             int initialPositionXB2 = (int) (Math.random() * limitX);
             int initialPositionXB3 = (int) (Math.random() * limitX);
@@ -100,12 +131,11 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         @Override
         public void run() {
             int direction;
-            p.setColor(Color.WHITE);
 
             while (letRun){
                 if(surfaceHolder.getSurface().isValid()){
                     try {
-                        canvas = surfaceHolder.lockCanvas(); //bloqueamos el objeto canvas
+                        canvas = surfaceHolder.lockCanvas();
 
                         if(canvas!=null) {
                         if (bitmap == null) {
@@ -146,26 +176,18 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
                     }
 
                     catch (Exception e){
-                        Log.d("RUN SURFACE VIEW", e.getMessage());
-//                        letRun = false;
-
+                        letRun = false;
                     }
 
                     finally {
                         if(surfaceHolder.getSurface().isValid() && canvas!=null ) {
                             surfaceHolder.unlockCanvasAndPost(canvas);
                         }
-
                     }
-
                 }
-
             }
         }
 
-        private void doDraw(){
-
-        }
         Random ran;
         Bolita b1,b2,b3,b4,b5;
 
@@ -177,7 +199,7 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
     public boolean letRun;
     protected Thread bubbleThread;
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private Bitmap bitmap;
     Paint p;
     private int limitX;
@@ -185,7 +207,3 @@ public class WelcomeSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     private Canvas canvas;
 
 }
-
-//                    Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.welcome_background, null);
-//                    d.setBounds(0,0,canvas.getWidth(),canvas.getHeight());
-//                    d.draw(canvas);

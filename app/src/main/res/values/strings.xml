@@ -20,4 +20,14 @@
     <string name="btn_skip_guide_tittle">Saltar la guía</string>
     <string name="btn_skip_guide_message">¿Está seguro de cancelar la guía (no podrá volver a verla más adelante)?</string>
     <string name="btn_skip_guide_leave">Ver la guía</string>
+    <string name="music_service_description">Reproduce música durante la ejecución de la
+        guía interactiva</string>
+    <string name="guide_completed">COMPLETED</string>
+    <string name="welcome_completed">COMPLETED</string>
+    <string name="app_pref">APP_PREF</string>
+    <string name="llamas_ardientes">Llamas ardientes</string>
+    <string name="comenzar">Comenzar</string>
+    <string name="bubble_character_description">Aquí enontrarás a todos los personajes</string>
+    <string name="bubble_world_description">En la pestaña de mundos hayarás mundos singulares...</string>
+    <string name="bubble_collectibles_description">Y aquí encontrarás las cosas que se pueden coleccionar</string>
 </resources>

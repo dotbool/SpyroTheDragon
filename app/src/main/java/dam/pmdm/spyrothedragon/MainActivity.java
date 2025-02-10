@@ -1,5 +1,6 @@
 package dam.pmdm.spyrothedragon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
         if (navHostFragment != null) {
             navController = NavHostFragment.findNavController(navHostFragment);
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         binding.navView.setOnItemSelectedListener(this::selectedBottomMenu);
+        //AÑADO
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.navigation_characters ||
